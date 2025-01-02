@@ -23,8 +23,9 @@ app.use(cookieParser());
 // Allow all origins and methods with CORS
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Replace with your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    credentials: true, // Enable credentials
   })
 );
 
