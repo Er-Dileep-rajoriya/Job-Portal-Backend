@@ -14,18 +14,6 @@ export const registerCompany = async (req, res) => {
     });
   }
 
-  // company name should be unique in database
-  const companyFound = await Company.findOne({ name: companyName });
-
-  console.log("company : ", companyFound);
-  // if company found in database then return error message
-  if (companyFound) {
-    return res.status(400).json({
-      message: "Company Alraedy Exists.",
-      success: false,
-    });
-  }
-
   // otherwise create a company and store in database
   const createdCompany = await Company.create({
     name: companyName,

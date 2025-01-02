@@ -23,7 +23,7 @@ app.use(cookieParser());
 // Allow all origins and methods with CORS
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // Replace with your frontend URL
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true, // Enable credentials
   })
@@ -32,7 +32,7 @@ app.use(
 // APIs
 app.use("/api/v1/users/", userRouter);
 app.use("/api/v1/company/", isAuthenticated, companyRouter);
-app.use("/api/v1/job/", isAuthenticated, jobRouter);
+app.use("/api/v1/job/", jobRouter);
 app.use("/api/v1/application/", isAuthenticated, applicationRouter);
 
 app.listen(port, () => {

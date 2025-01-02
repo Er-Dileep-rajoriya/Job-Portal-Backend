@@ -45,10 +45,22 @@ export const postJob = async (req, res) => {
     company: companyId,
   });
 
+  // job to send back the client
+  const job = await Job.findById(createdJob._id).populate({
+    path: "company",
+  });
+
+  if (!job) {
+    return res.status(404).json({
+      message: "No Job Found to Return.",
+      success: false,
+    });
+  }
+
   return res.status(201).json({
     message: "Job Successfully Created.",
     success: true,
-    job: createdJob,
+    job,
   });
 };
 
@@ -124,10 +136,11 @@ export const getAdminJobs = async (req, res) => {
   try {
     const adminId = req.userId;
 
-    const jobs = await Job.find({ created_by: adminId }).populate({
-      path: "company",
-      createdAt: -1,
-    });
+    const jobs = await Job.find({ created_by: adminId })
+      .populate({
+        path: "company",
+      })
+      .sort({ createdAt: -1 });
 
     if (!jobs) {
       return res.status(404).json({
